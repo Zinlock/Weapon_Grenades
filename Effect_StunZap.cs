@@ -306,7 +306,7 @@ function Player::zap(%obj)
 	if(%obj.zapDamage $= "" || %obj.zapDamage <= 0)
 		%obj.zapDamage = 0.1;
 
-	%obj.zapLoop();
+	%obj.zap = %obj.schedule(0, zapLoop);
 }
 
 function Player::zapLoop(%obj)
