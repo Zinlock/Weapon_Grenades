@@ -37,17 +37,17 @@ function Player::grenade_UpdateSpeed(%pl)
 		%pl.RWep_updateSpeed();
 	else // neither aebase nor rallypack is enabled, do the funny manually
 	{
-		if(%player.rex_stun $= "")
-			%player.rex_stun = 1;
+		if(%pl.rex_stun $= "")
+			%pl.rex_stun = 1;
 
 		%data = %pl.getDatablock();
 
-		%player.setMaxForwardSpeed(%data.maxForwardSpeed * %player.rex_stun);
-		%player.setMaxBackwardSpeed(%data.maxBackwardSpeed * %player.rex_stun);
-		%player.setMaxSideSpeed(%data.maxSideSpeed * %player.rex_stun);
-		%player.setMaxCrouchForwardSpeed(%data.maxForwardCrouchSpeed * %player.rex_stun);
-		%player.setMaxCrouchBackwardSpeed(%data.maxBackwardCrouchSpeed * %player.rex_stun);
-		%player.setMaxCrouchSideSpeed(%data.maxSideCrouchSpeed * %player.rex_stun);
+		%pl.setMaxForwardSpeed(%data.maxForwardSpeed * %pl.rex_stun);
+		%pl.setMaxBackwardSpeed(%data.maxBackwardSpeed * %pl.rex_stun);
+		%pl.setMaxSideSpeed(%data.maxSideSpeed * %pl.rex_stun);
+		%pl.setMaxCrouchForwardSpeed(%data.maxForwardCrouchSpeed * %pl.rex_stun);
+		%pl.setMaxCrouchBackwardSpeed(%data.maxBackwardCrouchSpeed * %pl.rex_stun);
+		%pl.setMaxCrouchSideSpeed(%data.maxSideCrouchSpeed * %pl.rex_stun);
 	}
 }
 
