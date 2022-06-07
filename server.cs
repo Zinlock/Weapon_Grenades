@@ -4,6 +4,16 @@ if(!isFile("Add-Ons/Weapon_Rocket_Launcher/server.cs"))
 	return;
 }
 
+if ($RTB::Hooks::ServerControl)
+{
+	RTB_registerPref("Hide Ammo", "Grenades", "$Pref::XNades::hideAmmo", "bool", "Weapon_Grenades", 0, false, false, "");
+}
+else
+{
+	if ($Pref::XNades::hideAmmo $= "") $Pref::XNades::hideAmmo = 0;
+}
+
+exec("./support_dataprefs.cs");
 exec("./support_uselimit.cs");
 exec("./support_prjloop.cs");
 exec("./support_items.cs");

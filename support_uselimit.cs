@@ -14,7 +14,7 @@ function Player::WeaponAmmoStart(%pl)
 
 function Player::WeaponAmmoPrint(%pl, %cl, %idx, %sit)
 {
-	if(!isObject(%pl) || !isObject(%cl))
+	if(!isObject(%pl) || !isObject(%cl) || $Pref::XNades::hideAmmo)
 		return;
 	
 	cancel(%pl.weaponAmmoPrintSched);
@@ -107,13 +107,16 @@ package WeaponDropCharge
 	{
 		Parent::onAdd(%this, %obj);
 		
-		if($weaponChargeTemp !$= "")
+		if(%obj.weaponCharges $= "")
 		{
-			%obj.weaponCharges = $weaponChargeTemp;
-			$weaponChargeTemp = "";
+			if($weaponChargeTemp !$= "")
+			{
+				%obj.weaponCharges = $weaponChargeTemp;
+				$weaponChargeTemp = "";
+			}
+			else if(isObject(%db = %obj.getDatablock().image) && %db.weaponUseCount > 0)
+				%obj.weaponCharges = %db.weaponUseCount;
 		}
-		else if(isObject(%db = %obj.getDatablock().image) && %db.weaponUseCount > 0)
-			%obj.weaponCharges = %db.weaponUseCount;
 	}
 
 	function Player::Pickup(%pl, %item)
