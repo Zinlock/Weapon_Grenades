@@ -119,6 +119,8 @@ datablock ShapeBaseImageData(grenade_nailbombImage)
 	weaponUseCount = 1;
 	weaponReserveMax = 3;
 
+	clusterlets = 50;
+
 	projectileType = Projectile;
 	projectile = grenade_nailbombProjectile;
 
@@ -191,7 +193,7 @@ function grenade_nailbombProjectile::onCollision(%this,%obj,%col,%fade,%pos,%nor
 
 function grenade_nailbombProjectile::onExplode(%this, %obj, %pos)
 {
-	ProjectileFire(grenade_nailProjectile, %pos, "0 1 0", 1000, 50, 0, %obj, %obj.client);
+	ProjectileFire(grenade_nailProjectile, %pos, "0 1 0", 1000, grenade_nailbombImage.clusterlets, 0, %obj, %obj.client);
 
 	initContainerRadiusSearch(%pos, 32, $TypeMasks::PlayerObjectType);
 	while(isObject(%col = ContainerSearchNext()))

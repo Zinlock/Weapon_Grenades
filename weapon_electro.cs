@@ -117,6 +117,10 @@ datablock ShapeBaseImageData(grenade_electroImage)
 	weaponUseCount = 1;
 	weaponReserveMax = 3;
 
+	zapTime = 5;
+	zapDamage = 0.9;
+	zapRadius = 20;
+
 	projectileType = Projectile;
 	projectile = grenade_electroProjectile;
 
@@ -189,7 +193,7 @@ function grenade_electroProjectile::onCollision(%this,%obj,%col,%fade,%pos,%norm
 
 function grenade_electroProjectile::onExplode(%this, %obj, %pos)
 {
-	initContainerRadiusSearch(%pos, 20, $TypeMasks::PlayerObjectType);
+	initContainerRadiusSearch(%pos, grenade_electroImage.zapRadius, $TypeMasks::PlayerObjectType);
 	while(isObject(%col = ContainerSearchNext()))
 	{
 		if(minigameCanDamage(%obj, %col) == 1)
@@ -198,8 +202,8 @@ function grenade_electroProjectile::onExplode(%this, %obj, %pos)
 
 			if(!isObject(firstWord(containerRayCast(%pos,%col.getHackPosition(),$TypeMasks::FxBrickObjectType | $TypeMasks::VehicleObjectType, %col))))
 			{
-				%col.zapTicks = 20;
-				%col.zapDamage = 0.9;
+				%col.zapTicks = mFloor(grenade_electroImage.zapTime * 1000 / 250);
+				%col.zapDamage = grenade_electroImage.zapDamage;
 				%col.zap();
 			}
 		}

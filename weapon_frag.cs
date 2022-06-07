@@ -118,6 +118,8 @@ datablock ShapeBaseImageData(grenade_fragmentImage)
 
 	weaponUseCount = 1;
 	weaponReserveMax = 2;
+	
+	clusterlets = 75;
 
 	projectileType = Projectile;
 	projectile = grenade_fragmentProjectile;
@@ -191,7 +193,7 @@ function grenade_fragmentProjectile::onCollision(%this,%obj,%col,%fade,%pos,%nor
 
 function grenade_fragmentProjectile::onExplode(%this, %obj, %pos)
 {
-	ProjectileFire(grenade_shrapnelProjectile, %pos, "0 1 0", 1000, 75, 0, %obj, %obj.client);
+	ProjectileFire(grenade_shrapnelProjectile, %pos, "0 1 0", 1000, grenade_fragmentImage.clusterlets, 0, %obj, %obj.client);
 
 	initContainerRadiusSearch(%pos, 32, $TypeMasks::PlayerObjectType);
 	while(isObject(%col = ContainerSearchNext()))

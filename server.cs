@@ -281,5 +281,70 @@ exec("./weapon_dynamite.cs");
 exec("./weapon_decoy.cs");
 exec("./weapon_holy.cs");
 
-registerDataPref("Default Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_remoteImage, weaponUseCount);
+registerDataPref("Default Reserve Cluster Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_clusterImage, weaponUseCount);
+registerDataPref("Max Reserve Cluster Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_clusterImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Concussion Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_concussionImage, weaponUseCount);
+registerDataPref("Max Reserve Concussion Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_concussionImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Decoy Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_decoyImage, weaponUseCount);
+registerDataPref("Max Reserve Decoy Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_decoyImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Electric Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_electroImage, weaponUseCount);
+registerDataPref("Max Reserve Electric Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_electroImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Flash Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_flashbangImage, weaponUseCount);
+registerDataPref("Max Reserve Flash Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_flashbangImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Frag Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_fragmentImage, weaponUseCount);
+registerDataPref("Max Reserve Frag Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_fragmentImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Holy Hand Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_holyhandImage, weaponUseCount);
+registerDataPref("Max Reserve Holy Hand Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_holyhandImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Molotovs", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_mollyImage, weaponUseCount);
+registerDataPref("Max Reserve Molotovs", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_mollyImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Nail Bombs", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_nailbombImage, weaponUseCount);
+registerDataPref("Max Reserve Nail Bombs", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_nailbombImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_remoteImage, weaponUseCount);
 registerDataPref("Max Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 8, false, false, grenade_remoteImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Smoke Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_smokeImage, weaponUseCount);
+registerDataPref("Max Reserve Smoke Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_smokeImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Stick Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_stickImage, weaponUseCount);
+registerDataPref("Max Reserve Stick Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_stickImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Tear Gas Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_riotImage, weaponUseCount);
+registerDataPref("Max Reserve Tear Gas Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_riotImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Thermite Sticks", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_dynamiteImage, weaponUseCount);
+registerDataPref("Max Reserve Thermite Sticks", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_dynamiteImage, weaponReserveMax);
+
+registerDataPref("Explosion Clusterlets (30)", "Cluster Grenade", "Weapon_Grenades", "int 0 200", 30, false, false, grenade_clusterImage, clusterlets);
+
+registerDataPref("Zap Damage (0.9)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 0.9, false, false, grenade_electroImage, zapDamage);
+registerDataPref("Zap Time (5s)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 5, false, false, grenade_electroImage, zapTime);
+registerDataPref("Zap Radius (20u)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 20, false, false, grenade_electroImage, zapRadius);
+
+registerDataPref("Flash Time (4s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 4, false, false, grenade_flashbangImage, flashTime);
+
+registerDataPref("Explosion Shrapnel (75)", "Frag Grenade", "Weapon_Grenades", "int 0 200", 75, false, false, grenade_fragmentImage, clusterlets);
+
+registerDataPref("Burn Damage (3.5)", "Molotov", "Weapon_Grenades", "int 0 1000", 3.5, false, false, grenade_mollyImage, burnDamage);
+registerDataPref("Afterburn Damage (2.5)", "Molotov", "Weapon_Grenades", "int 0 1000", 2.5, false, false, grenade_mollyImage, afterBurnDamage);
+registerDataPref("Afterburn Time (4)", "Molotov", "Weapon_Grenades", "int 0 1000", 4, false, false, grenade_mollyImage, afterBurnTime);
+
+registerDataPref("Explosion Nails (30)", "Nail Bomb", "Weapon_Grenades", "int 0 200", 30, false, false, grenade_nailbombImage, clusterlets);
+
+registerDataPref("Max Active Charges (4)", "Remote Charge", "Weapon_Grenades", "int 0 100", 4, false, false, grenade_remoteImage, maxActive);
+
+registerDataPref("Dizzy Time (5s)", "Tear Gas Grenade", "Weapon_Grenades", "int 0 30", 5, false, false, grenade_riotImage, slowTime);
+registerDataPref("Dizzy Speed Multiplier (0.6x)", "Tear Gas Grenade", "Weapon_Grenades", "int 0 10", 0.6, false, false, grenade_riotImage, slowSpeed);
+registerDataPref("Dizzy Damage Multiplier (2x)", "Tear Gas Grenade", "Weapon_Grenades", "int 0 50", 2, false, false, grenade_riotImage, damageMult);
+
+registerDataPref("Burn Damage (4.2)", "Thermite Stick", "Weapon_Grenades", "int 0 1000", 4.2, false, false, grenade_dynamiteImage, burnDamage);
+registerDataPref("Afterburn Damage (3.2)", "Thermite Stick", "Weapon_Grenades", "int 0 1000", 3.2, false, false, grenade_dynamiteImage, afterBurnDamage);
+registerDataPref("Afterburn Time (4s)", "Thermite Stick", "Weapon_Grenades", "int 0 1000", 4, false, false, grenade_dynamiteImage, afterBurnTime);

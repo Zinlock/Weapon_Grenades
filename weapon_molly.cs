@@ -7,16 +7,6 @@ datablock ExplosionData(grenade_mollyExplosion)
 
 	soundProfile = grenade_mollyExplosionSound;
 
-	// debris = grenade_mollyFireDebrisData;
-	 debrisNum = 0;
-	// debrisNumVariance = 10;
-	// debrisPhiMin = 0;
-	// debrisPhiMax = 360;
-	// debrisThetaMin = 0;
-	// debrisThetaMax = 76;
-	// debrisVelocity = 14;
-	// debrisVelocityVariance = 0;
-
 	emitter[0] = grenade_mollyExplosionCloudEmitter;
 	emitter[1] = grenade_concExplosionDebris2Emitter;
 
@@ -125,7 +115,11 @@ datablock ShapeBaseImageData(grenade_mollyImage)
 	colorShiftColor = grenade_mollyItem.colorShiftColor;
 
 	weaponUseCount = 1;
-	weaponReserveMax = 3;
+	weaponReserveMax = 2;
+
+	burnDamage = 3.5;
+	afterBurnDamage = 2.5;
+	afterBurnTime = 4;
 
 	projectileType = Projectile;
 	projectile = grenade_mollyProjectile;
@@ -259,23 +253,28 @@ function grenade_mollyTriggerData::onTickTrigger(%db, %trig)
 				%obj.mollyTarget = %trig;
 				%obj.lastBurnTime = getSimTime();
 				
-				%obj.damage(%obj, %obj.getHackPosition(), 1, $DamageType::mollyDirect);
-				%obj.molotovAfterBurn(2.5, 250, 16);
+				%tick = 250;
+				%obj.firstBurnTick = 1;
+				%obj.molotovAfterBurn(grenade_mollyImage.afterBurnDamage, %tick, mFloor(grenade_mollyImage.afterBurnTime * 1000 / %tick), grenade_mollyImage.burnDamage);
 			}
 		}
 	}
 }
 
-function Player::molotovAfterBurn(%pl, %dmg, %spd, %tick)
+function Player::molotovAfterBurn(%pl, %dmg, %spd, %tick, %first)
 {
 	cancel(%pl.afterBurn);
-
+	
 	%pl.burn(%spd + 1000);
 
 	if($BBB::Enable && %pl.isBody)
 		%pl.flameClear();
 
-	%pl.damage(%pl, %pl.getHackPosition(), %dmg, $DamageType::mollyDirect);
+	%pl.damage(%pl, %pl.getHackPosition(), (%pl.firstBurnTick ? %first : %dmg), $DamageType::mollyDirect);
+
+	if(%pl.firstBurnTick)
+		%pl.firstBurnTick = false;
+
 	%pl.playThread(2, plant);
 	serverPlay3D(grenade_mollyBurnSound, %pl.getHackPosition());
 

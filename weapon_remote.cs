@@ -95,6 +95,8 @@ datablock ShapeBaseImageData(grenade_remoteImage)
 	weaponReserveMax = 8;
 	weaponKeepOnEmpty = true;
 
+	maxActive = 4;
+
 	projectileType = Projectile;
 	projectile = grenade_remoteProjectile;
 
@@ -129,11 +131,6 @@ datablock ShapeBaseImageData(grenade_remoteImage)
 	stateTimeoutValue[2]		   = 0.3;
 };
 
-if ($RTB::Hooks::ServerControl)
-	RTB_registerPref("Max Active Remote Charges", "Grenades - Remote Explosive", "$Pref::XNades::maxC4", "int 0 1000", "Weapon_Grenades", 4, false, false, "");
-else if($Pref::XNades::maxC4 $= "")
-	$Pref::XNades::maxC4 = 4;
-
 function grenade_remoteImage::onUnMount(%this, %obj, %slot)
 {
 	%obj.unMountImage(1);
@@ -151,9 +148,9 @@ function grenade_remoteImage::onChargeStart(%this, %obj, %slot) { }
 
 function grenade_remoteImage::onFire(%this, %obj, %slot)
 {
-	if(isObject(%obj.chargeSet) && %obj.chargeSet.getCount() >= $Pref::XNades::maxC4)
+	if(isObject(%obj.chargeSet) && %obj.chargeSet.getCount() >= %this.maxActive)
 	{
-		%obj.client.centerprint("<font:arial:15>\c5You already have " @ $Pref::XNades::maxC4 @ " active charges!", 2);
+		%obj.client.centerprint("<font:arial:15>\c5You already have " @ %this.maxActive @ " active charges!", 2);
 		return;
 	}
 
@@ -240,7 +237,7 @@ function grenade_remoteProjectile::onCollision(%this,%obj,%col,%fade,%pos,%norma
 	globalChargeSet.add(%charge);
 	MissionCleanup.add(%charge);
 	
-	if(%pl.chargeSet.getCount() > $Pref::XNades::maxC4)
+	if(%pl.chargeSet.getCount() > grenade_remoteImage.maxActive)
 	{
 		%pl.chargeSet.getObject(%pl.chargeSet.getCount()-1).delete();
 		%pl.weaponAmmoGive(1, %obj.sourceInv);

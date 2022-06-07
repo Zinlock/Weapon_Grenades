@@ -114,6 +114,10 @@ datablock ShapeBaseImageData(grenade_dynamiteImage)
 	weaponUseCount = 1;
 	weaponReserveMax = 2;
 
+	burnDamage = 4.2;
+	afterBurnDamage = 3.2;
+	afterBurnTime = 4;
+
 	projectileType = Projectile;
 	projectile = grenade_dynamiteProjectile;
 
@@ -285,8 +289,9 @@ function grenade_dynamiteTriggerData::onTickTrigger(%db, %trig)
 
 			if(minigameCanDamage(%trig.sourceClient, %obj) == 1)
 			{
-				%obj.damage(%obj, %obj.getHackPosition(), 1, $DamageType::mollyDirect);
-				%obj.molotovAfterBurn(3.2, 250, 16);
+				%tick = 250;
+				%obj.firstBurnTick = 1;
+				%obj.molotovAfterBurn(grenade_dynamiteImage.afterBurnDamage, %tick, mFloor(grenade_dynamiteImage.afterBurnTime * 1000 / %tick), grenade_dynamiteImage.burnDamage);
 			}
 		}
 	}

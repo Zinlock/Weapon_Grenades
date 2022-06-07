@@ -6,9 +6,22 @@
 
 function registerDataPref(%title, %category, %addon, %type, %default, %host, %restart, %data, %field, %td)
 {
-	if($Pref::DataPref[%data, %field] $= "")
-		$Pref::DataPref[%data, %field] = %default;
-	
+	if(isObject(%data))
+	{
+		if($Pref::DataPref[%data, %field] !$= "")
+			%data.setField(%field, $Pref::DataPref[%data, %field]);
+		else
+		{
+			$Pref::DataPref[%data, %field] = %default;
+			%data.setField(%field, %default);
+		}
+	}
+	else
+	{
+		error("registerDataPref() - Object '" @ %data @ "' does not exist");
+		return -1;
+	}
+
 	if(strlen($BLPrefs::Version))
 	{
 		%pref = new ScriptObject(Preference) {
@@ -38,7 +51,7 @@ function registerDataPref(%title, %category, %addon, %type, %default, %host, %re
 
 		return %pref;
 	}
-	else warn("registerDataPref() - Missing or unsupported preferences mod");
+	// else warn("registerDataPref() - Missing or unsupported preferences mod");
 }
 
 function DataPref::onLoad(%pref, %val)

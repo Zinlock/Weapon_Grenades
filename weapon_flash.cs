@@ -64,11 +64,6 @@ function Player::blindLoop(%pl, %time)
 	else
 	{
 		%pl.setWhiteOut(0.9);
-		%pl.schedule(100, setWhiteOut, 0.8);
-		%pl.schedule(200, setWhiteOut, 0.7);
-		%pl.schedule(300, setWhiteOut, 0.5);
-		%pl.schedule(400, setWhiteOut, 0.3);
-		%pl.schedule(500, setWhiteOut, 0.1);
 		%pl.isBlind = false;
 	}
 }
@@ -209,6 +204,8 @@ datablock ShapeBaseImageData(grenade_flashbangImage)
 	weaponUseCount = 1;
 	weaponReserveMax = 3;
 
+	flashTime = 4;
+
 	projectileType = Projectile;
 	projectile = grenade_flashbangProjectile;
 
@@ -292,7 +289,7 @@ function grenade_flashbangProjectile::onExplode(%this, %obj, %pos)
 
 			if(!isObject(firstWord(containerRayCast(%pos,%col.getEyePoint(),$TypeMasks::FxBrickObjectType | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType, %col))))
 			{
-				%time = 4;
+				%time = grenade_flashbangImage.flashTime;
 				%proxy = 32;
 				%deaf = 0.8;
 				%dist = vectorDist(%pos, %col.getEyePoint());

@@ -160,6 +160,10 @@ datablock ShapeBaseImageData(grenade_riotImage)
 	weaponUseCount = 1;
 	weaponReserveMax = 3;
 
+	damageMult = 2;
+	slowTime = 5;
+	slowSpeed = 0.6;
+
 	projectileType = Projectile;
 	projectile = grenade_riotProjectile;
 
@@ -259,9 +263,7 @@ function grenade_riotTriggerData::onTickTrigger(%db, %trig)
 		{
 			if(minigameCanDamage(%trig.sourceClient, %obj) == 1)
 			{
-				%obj.startRiotDebuff(5, 0.6);
-				// if(%obj.riotDebuffTick > 60)
-				// 	%pl.riotPoisonLoop(120, 2, 60);
+				%obj.startRiotDebuff(grenade_riotImage.slowTime, grenade_riotImage.slowSpeed);
 			}
 		}
 	}
@@ -272,7 +274,7 @@ package riotDebuffPackage
 	function Armor::Damage(%db, %pl, %src, %pos, %dmg, %type)
 	{
 		if(%pl.riotDebuffed)
-			%dmg *= 2;
+			%dmg *= grenade_riotImage.damageMult;
 		
 		Parent::Damage(%db, %pl, %src, %pos, %dmg, %type);
 	}

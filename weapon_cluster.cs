@@ -118,6 +118,8 @@ datablock ShapeBaseImageData(grenade_clusterImage)
 
 	weaponUseCount = 1;
 	weaponReserveMax = 3;
+	
+	clusterlets = 30;
 
 	projectileType = Projectile;
 	projectile = grenade_clusterProjectile;
@@ -191,7 +193,7 @@ function grenade_clusterProjectile::onCollision(%this,%obj,%col,%fade,%pos,%norm
 
 function grenade_clusterProjectile::onExplode(%this, %obj, %pos)
 {
-	%projs = ProjectileFire(grenade_clusterletProjectile, %pos, "0 1 0", 1000, 30, 0, %obj, %obj.client);
+	%projs = ProjectileFire(grenade_clusterletProjectile, %pos, "0 1 0", 1000, grenade_clusterImage.clusterlets, 0, %obj, %obj.client);
 	for(%i = 0; %i < getFieldCount(%projs); %i++)
 	{
 		%proj = getField(%projs, %i);
