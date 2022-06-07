@@ -110,6 +110,24 @@ function registerChargeEvents()
 
 registerChargeEvents();
 
+if(!isPackage(EventDescriptionsServer) && isFile($f = "Add-Ons/Script_EventDescriptions/server.cs"))
+	exec($f);
+
+$OutputDescription_["fxDtsBrick", "setGrenadeItem"] = "[grenade] [count]" NL
+																											"Spawns a static grenade item attached to this brick." NL
+																											"grenade: Grenade type" NL
+																											"count: Ammo to spawn the item with";
+
+$OutputDescription_["fxDtsBrick", "spawnGrenadeItem"] = "[grenade] [count]" NL
+																												"Spawns a physics grenade item on this brick." NL
+																												"grenade: Grenade type" NL
+																												"count: Ammo to spawn the item with";
+
+$OutputDescription_["Player", "addGrenade"] = "[grenade] [count]" NL
+																							"Gives this player a grenade." NL
+																							"grenade: Grenade type" NL
+																							"count: Reserve ammo to give";
+
 function fxDtsBrick::setGrenadeItem(%obj, %item, %val)
 {
 	%idb = $ChargeItem[%item];
