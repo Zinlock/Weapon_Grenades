@@ -129,9 +129,6 @@ datablock ShapeBaseImageData(grenade_remoteImage)
 	stateTimeoutValue[2]		   = 0.3;
 };
 
-registerDataPref("Default Reserve Remote Charges", "Remote Explosive", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_remoteImage, weaponUseCount);
-registerDataPref("Max Reserve Remote Charges", "Remote Explosive", "Weapon_Grenades", "int 0 1000", 8, false, false, grenade_remoteImage, weaponReserveMax);
-
 if ($RTB::Hooks::ServerControl)
 	RTB_registerPref("Max Active Remote Charges", "Grenades - Remote Explosive", "$Pref::XNades::maxC4", "int 0 1000", "Weapon_Grenades", 4, false, false, "");
 else if($Pref::XNades::maxC4 $= "")

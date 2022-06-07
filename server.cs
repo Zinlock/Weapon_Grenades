@@ -280,3 +280,6 @@ exec("./weapon_riot.cs");
 exec("./weapon_dynamite.cs");
 exec("./weapon_decoy.cs");
 exec("./weapon_holy.cs");
+
+registerDataPref("Default Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_remoteImage, weaponUseCount);
+registerDataPref("Max Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 8, false, false, grenade_remoteImage, weaponReserveMax);
