@@ -22,7 +22,7 @@ function Player::WeaponAmmoPrint(%pl, %cl, %idx, %sit)
 	if(%pl.currTool != %idx || !isObject(%pl.tool[%idx]) || %pl.tool[%idx] != %sit)
 		return;
 
-	%cl.bottomPrint("<just:right><font:arial:19><color:7F4FA8>AMMO <font:arial:18>" @ %pl.weaponCharges[%pl.currTool] @ "/" @ %sit.image.weaponReserveMax @ "   ", 1, true);
+	%cl.bottomPrint("<just:right><font:arial:16><color:7F4FA8><spush>" @ %pl.ammoText @ "<spop>  <font:arial bold:16>AMMO <font:arial:16>" @ %pl.weaponCharges[%pl.currTool] @ "/" @ %sit.image.weaponReserveMax @ "   ", 1, true);
 
 	%pl.weaponAmmoPrintSched = %pl.schedule(300, weaponAmmoPrint, %cl, %idx, %sit);
 }
@@ -81,11 +81,94 @@ function Player::WeaponAmmoCheck(%pl)
 		return;
 }
 
+function registerChargeEvents()
+{
+	%list = "list";
+
+	%items = 0;
+
+	%cts = DatablockGroup.getCount();
+	for(%i = 0; %i < %cts; %i++)
+	{
+		%db = DatablockGroup.getObject(%i);
+
+		if(%db.IsA("ItemData") && %db.image.weaponReserveMax > 0)
+		{
+			%name = getSafeVariableName(%db.uiName);
+			%name = strReplace(%name, "APOS", "");
+			%name = strReplace(%name, "DASH", "");
+			%list = %list SPC %name SPC %items;
+			$ChargeItem[%items] = %db;
+			%items++;
+		}
+	}
+
+	registerOutputEvent(fxDtsBrick, setGrenadeItem, %list TAB "int 1 1000 1", 1);
+	registerOutputEvent(fxDtsBrick, spawnGrenadeItem, "vector" TAB %list TAB "int 1 1000 1", 1);
+	registerOutputEvent(Player, addGrenade, %list TAB "int 1 1000 1", 1);
+}
+
+registerChargeEvents();
+
+function fxDtsBrick::setGrenadeItem(%obj, %item, %val)
+{
+	%idb = $ChargeItem[%item];
+
+	if(isObject(%idb))
+	{
+		if(!$Pref::XNades::eventsBypassAmmo && %val > %idb.image.weaponReserveMax)
+			%val = %idb.image.weaponReserveMax;
+		
+		%obj.setItem(%idb);
+		%obj.item.weaponCharges = %val;
+	}
+}
+
+function fxDtsBrick::spawnGrenadeItem(%obj, %vel, %item, %val, %cl)
+{
+	%idb = $ChargeItem[%item];
+
+	if(%obj.getFakeDeadTime() > 120 || (!%obj.isRendering() && !%obj.isRayCasting()))
+		return;
+
+	if(isObject(%idb))
+	{
+		if(!$Pref::XNades::eventsBypassAmmo && %val > %idb.image.weaponReserveMax)
+			%val = %idb.image.weaponReserveMax;
+		
+		$weaponChargeTemp = %val;
+		%obj.spawnItem(%vel, %idb);
+	}
+}
+
+function Player::addGrenade(%pl, %item, %val)
+{
+	%idb = $ChargeItem[%item];
+
+	if(isObject(%idb))
+	{
+		%idx = %pl.itemLookup(0);
+		if(%idx == -1)
+		{
+			%idx = %pl.itemLookup(-1);
+			if(%idx == -1)
+				return;
+		}
+
+		if(!$Pref::XNades::eventsBypassAmmo && %val > %idb.image.weaponReserveMax)
+			%val = %idb.image.weaponReserveMax;
+		
+		%pl.setItem(%idb, %idx);
+		%pl.weaponCharges[%idx] = %val;
+	}
+}
+
 package WeaponDropCharge
 {
 	function WeaponImage::onUnMount(%this, %obj, %slot)
 	{
 		cancel(%obj.weaponAmmoPrintSched);
+		%obj.ammoText = "";
 		Parent::onUnMount(%this, %obj, %slot);
 	}
 

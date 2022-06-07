@@ -7,10 +7,12 @@ if(!isFile("Add-Ons/Weapon_Rocket_Launcher/server.cs"))
 if ($RTB::Hooks::ServerControl)
 {
 	RTB_registerPref("Hide Ammo", "Grenades", "$Pref::XNades::hideAmmo", "bool", "Weapon_Grenades", 0, false, false, "");
+	RTB_registerPref("Events Bypass Ammo Limit", "Grenades", "$Pref::XNades::eventsBypassAmmo", "bool", "Weapon_Grenades", 0, false, false, "");
 }
 else
 {
 	if ($Pref::XNades::hideAmmo $= "") $Pref::XNades::hideAmmo = 0;
+	if ($Pref::XNades::eventsBypassAmmo $= "") $Pref::XNades::eventsBypassAmmo = 0;
 }
 
 exec("./support_dataprefs.cs");
