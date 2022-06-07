@@ -137,7 +137,20 @@ function Player::cookPrint(%pl, %img)
 	if(%pl.chargeStartTime[%img] $= "" || !isObject(%pl.getMountedImage(0)) || %pl.getMountedImage(0).getID() != %img.getID())
 		return;
 	
-	%cl.centerPrint("<color:7F4FA8>" @ mFloatLength((((%img.Projectile.lifeTime * 32) - (getSimTime() - %pl.chargeStartTime[%img])) - %img.lifeTimeOffset) / 1000, 1) @ "s left!", 1);
+	%val = (getSimTime() - %pl.chargeStartTime[%img]) / (%img.Projectile.lifeTime * 32);
+
+	%str = "<font:impact:16><color:44FF44>";
+	%bars = 60;
+
+	for(%i = %bars; %i >= 0; %i--)
+	{
+		if(%i == mCeil(%val * %bars))
+			%str = %str @ "<color:444444>";
+
+		%str = %str @ ".";
+	}
+
+	%cl.centerPrint(%str @ "<br><color:7F4FA8><font:arial bold:16>" @ mFloatLength((((%img.Projectile.lifeTime * 32) - (getSimTime() - %pl.chargeStartTime[%img])) - %img.lifeTimeOffset) / 1000, 1) @ "s", 1);
 
 	%pl.cookSched = %pl.schedule(100, cookPrint, %img);
 }
