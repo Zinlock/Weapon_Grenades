@@ -297,6 +297,7 @@ exec("./weapon_dynamite.cs");
 exec("./weapon_decoy.cs");
 exec("./weapon_holy.cs");
 exec("./weapon_ninebang.cs");
+exec("./weapon_stim.cs");
 
 registerDataPref("Default Reserve Cluster Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_clusterImage, weaponUseCount);
 registerDataPref("Max Reserve Cluster Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_clusterImage, weaponReserveMax);
@@ -315,6 +316,9 @@ registerDataPref("Max Reserve Flash Grenades", "Ammo", "Weapon_Grenades", "int 0
 
 registerDataPref("Default Reserve Frag Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_fragmentImage, weaponUseCount);
 registerDataPref("Max Reserve Frag Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_fragmentImage, weaponReserveMax);
+
+registerDataPref("Default Reserve Health Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_stimImage, weaponUseCount);
+registerDataPref("Max Reserve Health Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_stimImage, weaponReserveMax);
 
 registerDataPref("Default Reserve Holy Hand Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_holyhandImage, weaponUseCount);
 registerDataPref("Max Reserve Holy Hand Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_holyhandImage, weaponReserveMax);
@@ -360,6 +364,8 @@ registerDataPref("Afterburn Time (4s)", "Molotov", "Weapon_Grenades", "int 0 100
 registerDataPref("Explosion Nails (30)", "Nail Bomb", "Weapon_Grenades", "int 0 200", 30, false, false, grenade_nailbombImage, clusterlets);
 
 registerDataPref("Flash Time (3s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 3, false, false, ninebang_image, flashTime);
+
+registerDataPref("Gas Heal (2.5)", "Stim Grenade", "Weapon_Grenades", "int 0 1000", 2.5, false, false, grenade_stimImage, tickHeal);
 
 registerDataPref("Max Active Charges (4)", "Remote Charge", "Weapon_Grenades", "int 0 100", 4, false, false, grenade_remoteImage, maxActive);
 
