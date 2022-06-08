@@ -2,6 +2,9 @@ exec("./weapon_riot_datablocks.cs");
 
 function Player::startRiotDebuff(%pl, %time, %slow)
 {
+	if(%pl.inStimGas && !%pl.inRiotGas)
+		return;
+
 	%time *= 1000;
 
 	if(!%pl.riotDebuffed)
@@ -37,7 +40,7 @@ function Player::riotDebuffLoop(%pl, %time, %slow)
 		%p.explode();
 	}
 
-	if(getSimTime() - %pl.riotDebuffTime < %time)
+	if(getSimTime() - %pl.riotDebuffTime < %time && (!%pl.inStimGas || %pl.inRiotGas))
 		%pl.riotDebuff = %pl.schedule(150, riotDebuffLoop, %time, %slow);
 	else
 	{
@@ -265,6 +268,10 @@ function grenade_riotTriggerData::onTickTrigger(%db, %trig)
 			if(minigameCanDamage(%trig.sourceClient, %obj) == 1)
 			{
 				%obj.startRiotDebuff(grenade_riotImage.slowTime, grenade_riotImage.slowSpeed);
+				
+				%obj.inRiotGas = true;
+				cancel(%obj.srfs);
+				%obj.srfs = %obj.schedule(200, setField, "inRiotGas", false);
 			}
 		}
 	}

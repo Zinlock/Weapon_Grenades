@@ -229,6 +229,11 @@ function grenade_stimTriggerData::onTickTrigger(%db, %trig)
 					%obj.setDamageLevel(%obj.getDamageLevel() - grenade_stimImage.tickHeal);
 					%obj.setWhiteOut(getMax(0.1, %obj.getWhiteOut()));
 				}
+
+				%obj.inStimGas = true;
+				cancel(%obj.afterBurn);
+				cancel(%obj.sfs);
+				%obj.sfs = %obj.schedule(200, setField, "inStimGas", false);
 			}
 		}
 	}

@@ -275,11 +275,15 @@ function Player::molotovAfterBurn(%pl, %dmg, %spd, %tick, %first)
 	
 	%pl.burn(%spd + 1000);
 
+	%dm = (%pl.firstBurnTick ? %first : %dmg);
+	if(%pl.inStimGas)
+		%dm *= 1.3;
+
+	%pl.damage(%pl, %pl.getHackPosition(), %dm, $DamageType::mollyDirect);
+
 	if($BBB::Enable && %pl.isBody)
 		%pl.flameClear();
-
-	%pl.damage(%pl, %pl.getHackPosition(), (%pl.firstBurnTick ? %first : %dmg), $DamageType::mollyDirect);
-
+	
 	if(%pl.firstBurnTick)
 		%pl.firstBurnTick = false;
 
