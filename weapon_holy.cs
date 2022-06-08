@@ -169,6 +169,7 @@ function grenade_holyhandImage::onChargeStart(%this, %obj, %slot)
 	%obj.chargeStartTime[%this] = getSimTime();
 	serverPlay3D(grenade_pinHeavySound, %obj.getMuzzlePoint(%slot));
 	%obj.cookPrint(%this);
+	%obj.funny = %obj.schedule(2000, funny);
 }
 
 function grenade_holyhandImage::onFire(%this, %obj, %slot)
@@ -181,11 +182,19 @@ function grenade_holyhandImage::onFire(%this, %obj, %slot)
 	{
 		%proj = getField(%projs, %i);
 		%proj.cookDeath = %proj.schedule((%proj.getDatablock().lifeTime * 32) - (getSimTime() - %obj.chargeStartTime[%this]), FuseExplode);
+		if(isEventPending(%obj.funny))
+		{
+			cancel(%obj.funny);
+			%proj.funny = %proj.schedule(getTimeRemaining(%proj.cookDeath) - 2000, funny);
+		}
 	}
 
 	%obj.chargeStartTime[%this] = "";
 	//%obj.unMountImage(%slot);
 }
+
+function Player::funny(%obj) { serverPlay3D(grenade_holyHallelujahSound, %obj.getPosition()); }
+function Projectile::funny(%obj) { serverPlay3D(grenade_holyHallelujahSound, %obj.getPosition()); }
 
 function grenade_holyhandProjectile::onCollision(%this,%obj,%col,%fade,%pos,%normal) { serverPlay3D(grenade_bounceSound,%pos); }
 
