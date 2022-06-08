@@ -185,7 +185,7 @@ function grenade_smokeImage::onFire(%this, %obj, %slot)
 
 function grenade_smokeProjectile::onCollision(%this,%obj,%col,%fade,%pos,%normal) { serverPlay3D(grenade_bounceSound,%pos); }
 
-function grenade_smokeProjectile::onExplode(%this, %obj, %pos)
+function smokeClearFire(%pos)
 {
 	initContainerRadiusSearch(%pos, 7.5, $TypeMasks::ProjectileObjectType);
 	while(isObject(%col = ContainerSearchNext()))
@@ -196,48 +196,10 @@ function grenade_smokeProjectile::onExplode(%this, %obj, %pos)
 			%col.schedule(0, delete);
 		}
 	}
-
-	%trig = new Trigger()
-	{
-		datablock = grenade_smokeTriggerData;
-		position = %pos;
-		polyhedron = "-0.5 -0.5 -0.5 1 0 0 0 1 0 0 0 1";
-		creationTime = getSimTime();
-		// sourceObject = %proj.sourceObject;
-		// sourceClient = %proj.client; // this is unnecessary, this just puts out fires
-		// sourceProjectile = %proj;
-	};
-	missionCleanup.add(%trig);
-	%trig.schedule(13000, delete);
-	%trig.setScale(6 SPC 6 SPC 6);
 }
 
-function grenade_smokeTriggerData::onEnterTrigger(%db, %trig, %obj)
+function grenade_smokeProjectile::onExplode(%this, %obj, %pos)
 {
-	Parent::onEnterTrigger(%db, %trig, %obj);
-
-	initContainerRadiusSearch(%trig.position, 7.5, $TypeMasks::ProjectileObjectType);
-	while(isObject(%col = ContainerSearchNext()))
-	{
-		if(%col.isMolotovFire)
-		{
-			%col.fireTrigger.delete();
-			%col.schedule(0, delete);
-		}
-	}
-}
-
-function grenade_smokeTriggerData::onTickTrigger(%db, %trig)
-{
-	Parent::onTickTrigger(%db, %trig);
-
-	initContainerRadiusSearch(%trig.position, 7.5, $TypeMasks::ProjectileObjectType);
-	while(isObject(%col = ContainerSearchNext()))
-	{
-		if(%col.isMolotovFire)
-		{
-			%col.fireTrigger.delete();
-			%col.schedule(0, delete);
-		}
-	}
+	for(%i = 0; %i < 52 * 4; %i++)
+		schedule(%i * 250, 0, smokeClearFire, %pos); // lol
 }

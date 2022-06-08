@@ -90,8 +90,3 @@ datablock AudioProfile(grenade_smokeExplosionSound)
 
 	pitchRange = 12;
 };
-
-datablock TriggerData(grenade_smokeTriggerData)
-{
-	tickPeriodMS = 300;
-};
