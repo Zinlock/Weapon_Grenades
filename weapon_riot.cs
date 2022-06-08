@@ -20,7 +20,7 @@ function Player::startRiotDebuff(%pl, %time, %slow)
 
 function Player::riotDebuffLoop(%pl, %time, %slow)
 {
-	if(!isObject(%pl))
+	if(!isObject(%pl) || %pl.getDamagePercent() >= 1.0)
 		return;
 	
 	cancel(%pl.riotDebuff);
