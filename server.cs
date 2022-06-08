@@ -63,6 +63,20 @@ function Player::grenade_UpdateSpeed(%pl)
 	}
 }
 
+// triggers dont detect players until they move. this sucks, but it works
+function Player::triggerFix(%pl)
+{
+	%vel = %pl.getVelocity();
+	%pl.setVelocity(vectorAdd(%pl.getVelocity(), "0 0 0.01"));
+}
+
+function triggerFix(%pos, %rad)
+{
+	initContainerRadiusSearch(%pos, %rad, $TypeMasks::PlayerObjectType);
+	while(isObject(%col = containerSearchNext()))
+		%col.triggerFix();
+}
+
 function ProjectileFire(%db, %pos, %vec, %spd, %amt, %srcSlot, %srcObj, %srcCli, %vel)
 {	
 	%projectile = %db;
@@ -363,7 +377,7 @@ registerDataPref("Afterburn Time (4s)", "Molotov", "Weapon_Grenades", "int 0 100
 
 registerDataPref("Explosion Nails (30)", "Nail Bomb", "Weapon_Grenades", "int 0 200", 30, false, false, grenade_nailbombImage, clusterlets);
 
-registerDataPref("Flash Time (3s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 3, false, false, ninebang_image, flashTime);
+registerDataPref("Flash Time (3s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 3, false, false, grenade_ninebangImage, flashTime);
 
 registerDataPref("Gas Heal (2.5)", "Stim Grenade", "Weapon_Grenades", "int 0 1000", 2.5, false, false, grenade_stimImage, tickHeal);
 

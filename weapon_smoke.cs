@@ -194,12 +194,18 @@ function smokeClearFire(%pos)
 		{
 			%col.fireTrigger.delete();
 			%col.schedule(0, delete);
+
+			if(getSimTime() - $lastExtinguishTime > 200)
+			{
+				schedule(50, 0, serverPlay3D, grenade_mollyExtinguishSound, %pos);
+				$lastExtinguishTime = getSimTime();
+			}
 		}
 	}
 }
 
 function grenade_smokeProjectile::onExplode(%this, %obj, %pos)
 {
-	for(%i = 0; %i < 52 * 4; %i++)
+	for(%i = 0; %i < 52; %i++)
 		schedule(%i * 250, 0, smokeClearFire, %pos); // lol
 }

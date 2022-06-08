@@ -248,6 +248,7 @@ function grenade_riotProjectile::onExplode(%this, %obj, %pos)
 	missionCleanup.add(%trig);
 	%trig.schedule(16000, delete);
 	%trig.setScale(13 SPC 13 SPC 13);
+	triggerFix(%pos, 20);
 
 	Parent::onExplode(%this, %obj, %pos);
 }

@@ -1,3 +1,17 @@
+datablock AudioProfile(grenade_mollyFireSound)
+{
+	filename    = "./wav/burn_loop3.wav";
+	description = AudioShortLooping3D;
+	preload = true;
+};
+
+datablock AudioProfile(grenade_mollyFireEndSound)
+{
+	filename    = "./wav/burn_end3.wav";
+	description = AudioShort3D;
+	preload = true;
+};
+
 datablock ParticleData(grenade_mollyFireParticle)
 {
 	dragCoefficient		= 0.58;
@@ -47,23 +61,17 @@ datablock ParticleEmitterData(grenade_mollyFireEmitter)
 	particles = "grenade_mollyFireParticle";
 };
 
-// datablock DebrisData(grenade_mollyFireDebrisData)
-// {
-// 	emitters = grenade_mollyFireEmitter;
+datablock ExplosionData(grenade_mollyFireExplosion)
+{
+	lifeTimeMS = 200;
 
-// 	shapeFile = "./dts/explosionDebris.dts";
-// 	lifetime = 7;
-// 	minSpinSpeed = -100.0;
-// 	maxSpinSpeed = 100.0;
-// 	elasticity = 1;
-// 	friction = 0;
-// 	numBounces = 0;
-// 	staticOnMaxBounce = true;
-// 	snapOnMaxBounce = true;
-// 	fade = false;
+	explosionScale = "1 1 1";
 
-// 	gravModifier = 2;
-// };
+	soundProfile = grenade_mollyFireEndSound;
+
+	damageRadius = 0;
+	radiusDamage = 0;
+};
 
 datablock ProjectileData(grenade_mollyFireProjectile)
 {
@@ -73,13 +81,15 @@ datablock ProjectileData(grenade_mollyFireProjectile)
 	radiusDamageType  = $DamageType::mollyDirect;
 	impactImpulse	   = 0;
 	verticalImpulse	   = 0;
-	explosion           = "";
+	explosion           = grenade_mollyFireExplosion;
 	particleEmitter     = grenade_mollyFireEmitter;
+
+	sound = grenade_mollyFireSound;
 
 	muzzleVelocity      = 10;
 	velInheritFactor    = 0;
 	explodeOnPlayerImpact = false;
-	explodeOnDeath        = false;  
+	explodeOnDeath        = true;
 
 	brickExplosionRadius = 0;
 	brickExplosionImpact = false;
@@ -105,7 +115,15 @@ datablock ProjectileData(grenade_mollyFireProjectile)
 	PrjLoop_maxTicks = -1;
 	PrjLoop_tickTime = 100;
 
-	uiName = "";
+	uiName = "G Molotov Fire";
+};
+
+datablock ProjectileData(grenade_mollyFireSilentProjectile : grenade_mollyFireProjectile)
+{
+	explosion           = "";
+	sound = "";
+
+	uiName = "G Molotov Fire Silent";
 };
 
 datablock ParticleData(grenade_mollyExplosionHazeParticle)
@@ -208,6 +226,15 @@ datablock AudioProfile(grenade_mollyBurnSound)
 	preload = true;
 
 	pitchRange = 12;
+};
+
+datablock AudioProfile(grenade_mollyExtinguishSound)
+{
+	filename    = "./wav/extinguish.wav";
+	description = AudioShort3D;
+	preload = true;
+
+	pitchRange = 4;
 };
 
 datablock TriggerData(grenade_mollyTriggerData)

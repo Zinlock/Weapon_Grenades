@@ -181,7 +181,7 @@ function grenade_mollyProjectile::onExplode(%this, %obj, %pos)
 	if(%ray)
 		%normal = normalFromRaycast(%ray);
 
-	%projs = ProjectileFire(grenade_mollyFireProjectile, %pos, %normal, 60, 30, 0, %obj, %obj.client);
+	%projs = ProjectileFire(grenade_mollyFireSilentProjectile, %pos, %normal, 60, 30, 0, %obj, %obj.client);
 	%projs = %projs TAB ProjectileFire(grenade_mollyFireProjectile, %pos, %normal, 15, 20, 0, %obj, %obj.client);
 	for(%i = 0; %i < getFieldCount(%projs); %i++)
 	{
@@ -210,7 +210,15 @@ function grenade_mollyProjectile::onExplode(%this, %obj, %pos)
 function grenade_mollyFireProjectile::PrjLoop_onTick(%this, %obj)
 {
 	if(isObject(%obj.fireTrigger))
+	{
 		%obj.fireTrigger.setTransform(%obj.getPosition());
+		triggerFix(%obj.getPosition, 6);
+	}
+}
+
+function grenade_mollyFireSilentProjectile::PrjLoop_onTick(%this, %obj)
+{
+	grenade_mollyFireProjectile::PrjLoop_onTick(%this, %obj);
 }
 
 function grenade_mollyTriggerData::onEnterTrigger(%db, %trig, %obj)

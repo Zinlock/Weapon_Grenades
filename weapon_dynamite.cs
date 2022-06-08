@@ -239,6 +239,8 @@ function grenade_dynamiteProjectile::onExplode(%this, %obj, %pos)
 
 function grenade_dynamiteFireProjectile::PrjLoop_onTick(%this, %obj)
 {
+	triggerFix(%obj.getPosition(), 15);
+
 	if(isObject(%obj.fireTrigger))
 		%obj.fireTrigger.setTransform(%obj.getPosition());
 	
