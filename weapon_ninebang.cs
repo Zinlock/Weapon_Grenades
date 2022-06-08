@@ -1,3 +1,39 @@
+datablock ExplosionData(grenade_ninebangExplosion)
+{
+   explosionShape = "Add-Ons/Weapon_Rocket_Launcher/explosionSphere1.dts";
+   lifeTimeMS = 150;
+
+   soundProfile = grenade_flashExplosionSound;
+
+   particleEmitter = grenade_flashExplosionCloudEmitter;
+   particleDensity = 4;
+   particleRadius = 1.0;
+
+   faceViewer     = true;
+   explosionScale = "1 1 1";
+
+   shakeCamera = true;
+   camShakeFreq = "7.0 8.0 7.0";
+   camShakeAmp = "1.0 1.0 1.0";
+   camShakeDuration = 0.9;
+   camShakeRadius = 18.0;
+
+   // Dynamic light
+   lightStartRadius = 0;
+   lightEndRadius = 0;
+   lightStartColor = "0.45 0.3 0.1";
+   lightEndColor = "0 0 0";
+
+   //impulse
+   impulseRadius = 0;
+   impulseForce = 0;
+
+   damageRadius = 0;
+   radiusDamage = 0;
+
+   uiName = "";
+};
+
 datablock ProjectileData(grenade_ninebangProjectile)
 {
 	projectileShapeName = "./dts/ninebang_projectile.dts";
@@ -6,7 +42,7 @@ datablock ProjectileData(grenade_ninebangProjectile)
 	radiusDamageType  = $DamageType::NineBangDirect;
 	impactImpulse	   = 0;
 	verticalImpulse	   = 0;
-	explosion           = grenade_flashbangExplosion;
+	explosion           = grenade_ninebangExplosion;
 	particleEmitter     = "";
 
 	muzzleVelocity      = 33;
@@ -140,7 +176,6 @@ function grenade_ninebangImage::onFire(%this, %obj, %slot)
 	{
 		%proj = getField(%projs, %i);
 		%proj.cookDeath = %proj.schedule((%proj.getDatablock().lifeTime * 32) - (getSimTime() - %obj.chargeStartTime[%this]), FuseExplode);
-		%proj.nineTick = 0;
 	}
 
 	%obj.chargeStartTime[%this] = "";
@@ -151,14 +186,14 @@ function grenade_ninebangProjectile::onCollision(%this,%obj,%col,%fade,%pos,%nor
 
 function grenade_ninebangProjectile::onExplode(%this, %obj, %pos)
 {
-	if(%obj.nineTick < 9)
+	if(%obj.nineTick < 8)
 	{
 		%projs = ProjectileFire(%this, %pos, vectorNormalize(%obj.getVelocity()), 50, 1, %obj.sourceSlot, %obj.sourceObject, %obj.client, getMax(5, vectorLen(%obj.getVelocity())));
 		for(%i = 0; %i < getFieldCount(%projs); %i++)
 		{
 			%proj = getField(%projs, %i);
 			%proj.nineTick = %obj.nineTick + 1;
-			%proj.cookDeath = %proj.schedule(getRandom(200, 350), explode);
+			%proj.cookDeath = %proj.schedule(getRandom(150, 400), explode);
 		}
 	}
 	
