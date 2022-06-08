@@ -63,17 +63,20 @@ function Player::grenade_UpdateSpeed(%pl)
 	}
 }
 
-function ProjectileFire(%db, %pos, %vec, %spd, %amt, %srcSlot, %srcObj, %srcCli)
-{
+function ProjectileFire(%db, %pos, %vec, %spd, %amt, %srcSlot, %srcObj, %srcCli, %vel)
+{	
 	%projectile = %db;
 	%spread = %spd / 1000;
 	%shellcount = %amt;
+
+	if(%vel $= "")
+		%vel = %projectile.muzzleVelocity;
 
 	%shells = -1;
 
 	for(%shell=0; %shell<%shellcount; %shell++)
 	{
-		%velocity = VectorScale(%vec, %projectile.muzzleVelocity); // fuck velocity inheritance :DD
+		%velocity = VectorScale(%vec, %vel); // fuck velocity inheritance :DD
 		%x = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
 		%y = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
 		%z = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
@@ -293,6 +296,7 @@ exec("./weapon_riot.cs");
 exec("./weapon_dynamite.cs");
 exec("./weapon_decoy.cs");
 exec("./weapon_holy.cs");
+exec("./weapon_ninebang.cs");
 
 registerDataPref("Default Reserve Cluster Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_clusterImage, weaponUseCount);
 registerDataPref("Max Reserve Cluster Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_clusterImage, weaponReserveMax);
@@ -321,6 +325,9 @@ registerDataPref("Max Reserve Molotovs", "Ammo", "Weapon_Grenades", "int 0 1000"
 registerDataPref("Default Reserve Nail Bombs", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_nailbombImage, weaponUseCount);
 registerDataPref("Max Reserve Nail Bombs", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_nailbombImage, weaponReserveMax);
 
+registerDataPref("Default Reserve Nine-Bang Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_ninebangImage, weaponUseCount);
+registerDataPref("Max Reserve Nine-Bang Grenades", "Ammo", "Weapon_Grenades", "int 0 1000", 2, false, false, grenade_ninebangImage, weaponReserveMax);
+
 registerDataPref("Default Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 1, false, false, grenade_remoteImage, weaponUseCount);
 registerDataPref("Max Reserve Remote Charges", "Ammo", "Weapon_Grenades", "int 0 1000", 8, false, false, grenade_remoteImage, weaponReserveMax);
 
@@ -348,9 +355,11 @@ registerDataPref("Explosion Shrapnel (75)", "Frag Grenade", "Weapon_Grenades", "
 
 registerDataPref("Burn Damage (3.5)", "Molotov", "Weapon_Grenades", "int 0 1000", 3.5, false, false, grenade_mollyImage, burnDamage);
 registerDataPref("Afterburn Damage (2.5)", "Molotov", "Weapon_Grenades", "int 0 1000", 2.5, false, false, grenade_mollyImage, afterBurnDamage);
-registerDataPref("Afterburn Time (4)", "Molotov", "Weapon_Grenades", "int 0 1000", 4, false, false, grenade_mollyImage, afterBurnTime);
+registerDataPref("Afterburn Time (4s)", "Molotov", "Weapon_Grenades", "int 0 1000", 4, false, false, grenade_mollyImage, afterBurnTime);
 
 registerDataPref("Explosion Nails (30)", "Nail Bomb", "Weapon_Grenades", "int 0 200", 30, false, false, grenade_nailbombImage, clusterlets);
+
+registerDataPref("Flash Time (3s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 3, false, false, ninebang_image, flashTime);
 
 registerDataPref("Max Active Charges (4)", "Remote Charge", "Weapon_Grenades", "int 0 100", 4, false, false, grenade_remoteImage, maxActive);
 
