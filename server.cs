@@ -377,7 +377,7 @@ registerDataPref("Afterburn Time (4s)", "Molotov", "Weapon_Grenades", "int 0 100
 
 registerDataPref("Explosion Nails (30)", "Nail Bomb", "Weapon_Grenades", "int 0 200", 30, false, false, grenade_nailbombImage, clusterlets);
 
-registerDataPref("Flash Time (3s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 3, false, false, grenade_ninebangImage, flashTime);
+registerDataPref("Flash Time (3s)", "Nine-Bang Grenade", "Weapon_Grenades", "int 0 100", 3, false, false, grenade_ninebangImage, flashTime);
 
 registerDataPref("Gas Heal (2.5)", "Stim Grenade", "Weapon_Grenades", "int 0 1000", 2.5, false, false, grenade_stimImage, tickHeal);
 
