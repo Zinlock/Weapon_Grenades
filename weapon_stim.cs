@@ -7,7 +7,7 @@ datablock ExplosionData(grenade_stimExplosion)
 	soundProfile = grenade_smokeExplosionSound;
 
 	particleEmitter = grenade_stimExplosionHazeEmitter;
-	particleDensity = 400;
+	particleDensity = 200;
 	particleRadius = 3;
 
 	faceViewer     = true;

@@ -11,8 +11,8 @@ datablock ParticleData(grenade_stimExplosionHazeParticle)
 	spinSpeed		= 10.0;
 	spinRandomMin		= -50.0;
 	spinRandomMax		= 50.0;
-	colors[0]     = "0.0 0.1 0.9 0.05";
-	colors[1]     = "0.0 0.05 0.6 0.1";
+	colors[0]     = "0.0 0.1 0.9 0.1";
+	colors[1]     = "0.0 0.05 0.6 0.07";
 	colors[2]     = "0.0 0.0 0.4 0.05";
 	colors[3]     = "0.0 0.0 0.05 0.0";
 
@@ -28,6 +28,7 @@ datablock ParticleData(grenade_stimExplosionHazeParticle)
 
 	useInvAlpha = false;
 };
+
 datablock ParticleEmitterData(grenade_stimExplosionHazeEmitter)
 {
    ejectionPeriodMS = 1;
