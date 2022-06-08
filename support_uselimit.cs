@@ -108,7 +108,7 @@ function registerChargeEvents()
 	registerOutputEvent(Player, addGrenade, %list TAB "int 1 1000 1", 1);
 }
 
-registerChargeEvents();
+schedule(0, 0, registerChargeEvents);
 
 if(!isPackage(EventDescriptionsServer) && isFile($f = "Add-Ons/Script_EventDescriptions/server.cs"))
 	exec($f);
