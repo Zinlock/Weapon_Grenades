@@ -261,6 +261,9 @@ package WeaponDropCharge
 				{
 					if(isObject(%itm = %pl.tool[%idx]))
 					{
+						if(%pl.weaponCharges[%idx] $= "")
+							%pl.weaponCharges[%idx] = %data.image.weaponUseCount;
+						
 						for(%i = %pl.weaponCharges[%idx]; %i < %data.image.weaponReserveMax; %i++)
 						{
 							if(%ammo <= 0)
