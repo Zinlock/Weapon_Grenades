@@ -193,6 +193,12 @@ function grenade_holyhandImage::onFire(%this, %obj, %slot)
 	//%obj.unMountImage(%slot);
 }
 
+function grenade_holyhandImage::onUnMount(%this, %obj, %slot)
+{
+	cancel(%obj.funny);
+	Parent::onUnMount(%this, %obj, %slot);
+}
+
 function Player::funny(%obj) { serverPlay3D(grenade_holyHallelujahSound, %obj.getPosition()); }
 function Projectile::funny(%obj) { serverPlay3D(grenade_holyHallelujahSound, %obj.getPosition()); }
 
