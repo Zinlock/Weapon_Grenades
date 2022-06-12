@@ -365,7 +365,7 @@ registerDataPref("Explosion Clusterlets (30)", "Cluster Grenade", "Weapon_Grenad
 
 registerDataPref("Zap Damage (0.9)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 0.9, false, false, grenade_electroImage, zapDamage);
 registerDataPref("Zap Time (5s)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 5, false, false, grenade_electroImage, zapTime);
-registerDataPref("Zap Radius (20u)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 20, false, false, grenade_electroImage, zapRadius);
+registerDataPref("Zap Radius (10u)", "Electric Grenade", "Weapon_Grenades", "int 0 1000", 10, false, false, grenade_electroImage, zapRadius);
 
 registerDataPref("Flash Time (4s)", "Flash Grenade", "Weapon_Grenades", "int 0 100", 4, false, false, grenade_flashbangImage, flashTime);
 

@@ -119,7 +119,7 @@ datablock ShapeBaseImageData(grenade_electroImage)
 
 	zapTime = 5;
 	zapDamage = 0.9;
-	zapRadius = 20;
+	zapRadius = 10;
 
 	projectileType = Projectile;
 	projectile = grenade_electroProjectile;
