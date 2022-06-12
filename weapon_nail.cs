@@ -221,3 +221,15 @@ function grenade_nailbombProjectile::onExplode(%this, %obj, %pos)
 	
 	Parent::onExplode(%this, %obj, %pos);
 }
+
+function grenade_nailProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
+{
+  %damageType = %this.DirectDamageType;
+	%scale = getWord(%obj.getScale(), 2);
+	%directDamage = %this.directDamage * %scale;
+
+	if(%col.getType() & $TypeMasks::PlayerObjectType)
+		%col.damage(%obj, %pos, %directDamage, %damageType);
+	else
+		%col.damage(%obj, %pos, %directDamage / 15, %damageType);
+}
