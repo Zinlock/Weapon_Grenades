@@ -175,6 +175,7 @@ function grenade_holyhandImage::onChargeStart(%this, %obj, %slot)
 function grenade_holyhandImage::onFire(%this, %obj, %slot)
 {
 	%obj.playThread(2, shiftDown);
+	%time = getTimeRemaining(%obj.funny);
 	%obj.weaponAmmoUse();
 	serverPlay3D(grenade_throwSound, %obj.getMuzzlePoint(%slot));
 	%projs = ProjectileFire(%this.Projectile, %obj.getMuzzlePoint(%slot), %obj.getMuzzleVector(%slot), 0, 1, %slot, %obj, %obj.client);
@@ -182,10 +183,10 @@ function grenade_holyhandImage::onFire(%this, %obj, %slot)
 	{
 		%proj = getField(%projs, %i);
 		%proj.cookDeath = %proj.schedule((%proj.getDatablock().lifeTime * 32) - (getSimTime() - %obj.chargeStartTime[%this]), FuseExplode);
-		if(isEventPending(%obj.funny))
+		if(%time > 0)
 		{
+			%proj.funny = %proj.schedule(%time, funny);
 			cancel(%obj.funny);
-			%proj.funny = %proj.schedule(getTimeRemaining(%proj.cookDeath) - 2000, funny);
 		}
 	}
 
