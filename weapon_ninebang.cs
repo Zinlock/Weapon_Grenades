@@ -85,7 +85,7 @@ datablock ItemData(grenade_ninebangItem)
 	emap = true;
 
 	uiName = "[G] Nine-Bang Grenade";
-	iconName = "./ico/FLASH";
+	iconName = "./ico/NINE";
 	doColorShift = false;
 
 	image = grenade_ninebangImage;
