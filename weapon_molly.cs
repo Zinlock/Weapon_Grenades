@@ -212,7 +212,7 @@ function grenade_mollyFireProjectile::PrjLoop_onTick(%this, %obj)
 	if(isObject(%obj.fireTrigger))
 	{
 		%obj.fireTrigger.setTransform(%obj.getPosition());
-		triggerFix(%obj.getPosition, 6);
+		triggerFix(%obj.getPosition(), 6);
 	}
 }
 
