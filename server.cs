@@ -232,7 +232,9 @@ package AudioRandomPitch
 		setTimescale(%oldTimescale);
 	}
 };
-activatePackage(AudioRandomPitch);
+
+if($Server::Dedicated)
+	activatePackage(AudioRandomPitch);
 
 function GameConnection::Play2DSpeed(%cl, %sound, %speed)
 {
