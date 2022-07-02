@@ -213,7 +213,7 @@ function grenade_stimTriggerData::onTickTrigger(%db, %trig)
 		%obj = %trig.getObject(%i);
 		if(%obj.IsA("Player") || %obj.IsA("AIPlayer"))
 		{
-			if(minigameCanDamage(%trig.sourceClient, %obj) != -1)
+			if(minigameCanDamage(%trig.sourceClient, %obj) != -1 && %obj.getDamagePercent() < 1.0)
 			{
 				if(isPackage(swol_downed) && %obj.isDowned)
 				{
