@@ -208,14 +208,14 @@ function grenade_stimTriggerData::onEnterTrigger(%db, %trig, %obj)
 {
 	Parent::onEnterTrigger(%db, %trig, %obj);
 
-	%obj.inStimGas = true;
+	%obj.stimTarget = %trig;
 }
 
 function grenade_stimTriggerData::onLeaveTrigger(%db, %trig, %obj)
 {
 	Parent::onLeaveTrigger(%db, %trig, %obj);
 	
-	%obj.inStimGas = false;
+	%obj.stimTarget = -1;
 }
 
 function grenade_stimTriggerData::onTickTrigger(%db, %trig)
@@ -225,26 +225,35 @@ function grenade_stimTriggerData::onTickTrigger(%db, %trig)
 	for(%i = 0; %i < %trig.getNumObjects(); %i++)
 	{
 		%obj = %trig.getObject(%i);
-		if(%obj.IsA("Player") || %obj.IsA("AIPlayer"))
+		if((%obj.IsA("Player") || %obj.IsA("AIPlayer")) && getSimTime() - %obj.lastStimTime > %db.tickPeriodMS)
 		{
-			if(minigameCanDamage(%trig.sourceClient, %obj) != -1 && %obj.getDamagePercent() < 1.0)
+			if(isObject(%obj.stimStarget) && %obj.stimTarget != %trig)
+				continue;
+			
+			if(!isObject(%obj.mollyTarget))
 			{
-				if(isPackage(swol_downed) && %obj.isDowned)
+				%obj.stimTarget = %trig;
+				%obj.lastStimTime = getSimTime();
+				
+				if(minigameCanDamage(%trig.sourceClient, %obj) != -1 && %obj.getDamagePercent() < 1.0)
 				{
-					%obj.downed_psuedoHealth += grenade_stimImage.tickHeal * 2;
-					if(%obj.downed_psuedoHealth >= (%db = %obj.getDatablock()).maxDamage)
+					if(isPackage(swol_downed) && %obj.isDowned)
 					{
-						%obj.downed_psuedoHealth = %db.maxDamage;
-						%obj.setDowned(0);
+						%obj.downed_psuedoHealth += grenade_stimImage.tickHeal * 2;
+						if(%obj.downed_psuedoHealth >= (%db = %obj.getDatablock()).maxDamage)
+						{
+							%obj.downed_psuedoHealth = %db.maxDamage;
+							%obj.setDowned(0);
+						}
 					}
-				}
-				else if(%obj.getDamageLevel() > 0)
-				{
-					%obj.setDamageLevel(%obj.getDamageLevel() - grenade_stimImage.tickHeal);
-					%obj.setWhiteOut(getMax(0.1, %obj.getWhiteOut()));
-				}
+					else if(%obj.getDamageLevel() > 0)
+					{
+						%obj.setDamageLevel(%obj.getDamageLevel() - grenade_stimImage.tickHeal);
+						%obj.setWhiteOut(getMax(0.1, %obj.getWhiteOut()));
+					}
 
-				cancel(%obj.afterBurn);
+					cancel(%obj.afterBurn);
+				}
 			}
 		}
 	}
