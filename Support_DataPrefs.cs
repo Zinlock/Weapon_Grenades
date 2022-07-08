@@ -61,7 +61,8 @@ function DataPref::onLoad(%pref, %val)
 		if(%val $= "")
 			%val = $Pref::DataPref[%pref.data, %pref.dataField];
 		
-		%pref.data.setField(%pref.dataField, %val);
+		//%pref.data.setField(%pref.dataField, %val);
+		eval(%pref.data @ "." @ %pref.dataField @ " = " @ %val @ ";"); // terrible. horrible, even. but this'll have to do for now
 	}
 }
 
@@ -69,7 +70,8 @@ function DataPref::onUpdate(%pref, %val)
 {
 	if(isObject(%pref.data))
 	{
-		%pref.data.setField(%pref.dataField, %val);
+		//%pref.data.setField(%pref.dataField, %val);
+		eval(%pref.data @ "." @ %pref.dataField @ " = " @ %val @ ";");
 
 		if(%pref.safeTD)
 			safeTransmitDatablocks(1);
