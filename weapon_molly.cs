@@ -263,23 +263,24 @@ function grenade_mollyTriggerData::onTickTrigger(%db, %trig)
 				
 				%tick = 250;
 				%obj.firstBurnTick = 1;
-				%obj.molotovAfterBurn(grenade_mollyImage.afterBurnDamage, %tick, mFloor(grenade_mollyImage.afterBurnTime * 1000 / %tick), grenade_mollyImage.burnDamage);
+				%obj.molotovAfterBurn(grenade_mollyImage.afterBurnDamage, %tick, mFloor(grenade_mollyImage.afterBurnTime * 1000 / %tick), grenade_mollyImage.burnDamage, %trig.sourceClient);
 			}
 		}
 	}
 }
 
-function Player::molotovAfterBurn(%pl, %dmg, %spd, %tick, %first)
+function Player::molotovAfterBurn(%pl, %dmg, %spd, %tick, %first, %src)
 {
 	cancel(%pl.afterBurn);
 	
 	%pl.burn(%spd + 1000);
 
 	%dm = (%pl.firstBurnTick ? %first : %dmg);
-	if(%pl.inStimGas)
-		%dm *= 1.3;
-
-	%pl.damage(%pl, %pl.getHackPosition(), %dm, $DamageType::mollyDirect);
+	
+	if(!isObject(%src))
+		%src = %pl;
+	
+	%pl.damage(%src, %pl.getHackPosition(), %dm, $DamageType::mollyDirect);
 
 	if($BBB::Enable && %pl.isBody)
 		%pl.flameClear();
@@ -291,5 +292,5 @@ function Player::molotovAfterBurn(%pl, %dmg, %spd, %tick, %first)
 	serverPlay3D(grenade_mollyBurnSound, %pl.getHackPosition());
 
 	if(%tick >= 0)
-		%pl.afterBurn = %pl.schedule(%spd, molotovAfterBurn, %dmg, %spd, %tick--);
+		%pl.afterBurn = %pl.schedule(%spd, molotovAfterBurn, %dmg, %spd, %tick--, %first, %src);
 }

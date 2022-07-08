@@ -243,12 +243,6 @@ function grenade_dynamiteFireProjectile::PrjLoop_onTick(%this, %obj)
 
 	if(isObject(%obj.fireTrigger))
 		%obj.fireTrigger.setTransform(%obj.getPosition());
-	
-	if(isObject(%obj.altFollower0))
-		%obj.altFollower0.setTransform(%obj.getTransform());
-	
-	if(isObject(%obj.altFollower1))
-		%obj.altFollower1.setTransform(%obj.getTransform());
 }
 
 function grenade_dynamiteTriggerData::onEnterTrigger(%db, %trig, %obj)
@@ -293,7 +287,7 @@ function grenade_dynamiteTriggerData::onTickTrigger(%db, %trig)
 			{
 				%tick = 250;
 				%obj.firstBurnTick = 1;
-				%obj.molotovAfterBurn(grenade_dynamiteImage.afterBurnDamage, %tick, mFloor(grenade_dynamiteImage.afterBurnTime * 1000 / %tick), grenade_dynamiteImage.burnDamage);
+				%obj.molotovAfterBurn(grenade_dynamiteImage.afterBurnDamage, %tick, mFloor(grenade_dynamiteImage.afterBurnTime * 1000 / %tick), grenade_dynamiteImage.burnDamage, %trig.sourceClient);
 			}
 		}
 	}
