@@ -240,11 +240,6 @@ package WeaponDropCharge
 			{
 				Parent::Pickup(%pl, %item);
 
-				// if(isObject(%item.spawnBrick))
-				// 	%item.respawn();
-				// else
-				// 	%item.schedule(10, delete);
-				
 				for(%i = 0; %i < getFieldCount(%empties); %i++)
 				{
 					%id = getField(%empties, %i);
@@ -273,15 +268,15 @@ package WeaponDropCharge
 							%ammo--;
 						}
 
-						%item.weaponCharges = %ammo;
-
-						if(isObject(%item.spawnBrick))
-						{
-							%item.weaponCharges = %item.getDatablock().Image.weaponUseCount;
+						if(%item.static)
 							%item.respawn();
+						else
+						{
+							%item.weaponCharges = %ammo;
+
+							if(%ammo <= 0)
+								%item.schedule(10, delete);
 						}
-						else if(%ammo <= 0)
-							%item.schedule(10, delete);
 						return true;
 					}
 				}
