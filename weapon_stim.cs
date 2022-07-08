@@ -204,6 +204,20 @@ function grenade_stimProjectile::onExplode(%this, %obj, %pos)
 	Parent::onExplode(%this, %obj, %pos);
 }
 
+function grenade_stimTriggerData::onEnterTrigger(%db, %trig, %obj)
+{
+	Parent::onEnterTrigger(%db, %trig, %obj);
+
+	%obj.inStimGas = true;
+}
+
+function grenade_stimTriggerData::onLeaveTrigger(%db, %trig, %obj)
+{
+	Parent::onLeaveTrigger(%db, %trig, %obj);
+	
+	%obj.inStimGas = false;
+}
+
 function grenade_stimTriggerData::onTickTrigger(%db, %trig)
 {
 	Parent::onTickTrigger(%db, %trig);
@@ -230,10 +244,7 @@ function grenade_stimTriggerData::onTickTrigger(%db, %trig)
 					%obj.setWhiteOut(getMax(0.1, %obj.getWhiteOut()));
 				}
 
-				%obj.inStimGas = true;
 				cancel(%obj.afterBurn);
-				cancel(%obj.sfs);
-				%obj.sfs = %obj.schedule(200, setField, "inStimGas", false);
 			}
 		}
 	}
