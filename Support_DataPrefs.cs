@@ -9,11 +9,15 @@ function registerDataPref(%title, %category, %addon, %type, %default, %host, %re
 	if(isObject(%data))
 	{
 		if($Pref::DataPref[%data, %field] !$= "")
-			%data.setField(%field, $Pref::DataPref[%data, %field]);
+		{
+			//%data.setField(%field, $Pref::DataPref[%data, %field]);
+			eval(%data @ "." @ %field @ " = " @ $Pref::DataPref[%data, %field] @ ";");
+		}
 		else
 		{
 			$Pref::DataPref[%data, %field] = %default;
-			%data.setField(%field, %default);
+			// %data.setField(%field, %default);
+			eval(%data @ "." @ %field @ " = " @ %default @ ";");
 		}
 	}
 	else
