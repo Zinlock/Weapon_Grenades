@@ -40,7 +40,7 @@ function Player::WeaponAmmoUse(%pl)
 			if(!%img.weaponKeepOnEmpty)
 			{
 				%pl.weaponCharges[%pl.currTool] = "";
-				%pl.removeItem(%pl.currTool);
+				%pl.removeItemSlot(%pl.currTool);
 			}
 		}
 	}

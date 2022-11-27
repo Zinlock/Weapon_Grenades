@@ -58,7 +58,7 @@ function Player::itemLookup(%pl, %id)
 	return -1;
 }
 
-function Player::removeItem(%pl, %slot)
+function Player::removeItemSlot(%pl, %slot)
 {
 	if(isObject(%item = %pl.tool[%slot]))
 	{

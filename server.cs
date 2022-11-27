@@ -43,23 +43,26 @@ function Normal2Rotation(%normal)
 
 function Player::grenade_UpdateSpeed(%pl)
 {
-	if(isFunction("Player", "aeUpdateSpeed")) // aebase compatibilty
-		%pl.aeUpdateSpeed();
-	else if(isFunction("Player", "RWep_UpdateSpeed")) // rallypack compatibility
-		%pl.RWep_updateSpeed();
-	else // neither aebase nor rallypack is enabled, do the funny manually
+	if($Version == 21)
 	{
-		if(%pl.rex_stun $= "")
-			%pl.rex_stun = 1;
+		if(isFunction("Player", "aeUpdateSpeed")) // aebase compatibilty
+			%pl.aeUpdateSpeed();
+		else if(isFunction("Player", "RWep_UpdateSpeed")) // rallypack compatibility
+			%pl.RWep_updateSpeed();
+		else // neither aebase nor rallypack is enabled, do the funny manually
+		{
+			if(%pl.rex_stun $= "")
+				%pl.rex_stun = 1;
 
-		%data = %pl.getDatablock();
+			%data = %pl.getDatablock();
 
-		%pl.setMaxForwardSpeed(%data.maxForwardSpeed * %pl.rex_stun);
-		%pl.setMaxBackwardSpeed(%data.maxBackwardSpeed * %pl.rex_stun);
-		%pl.setMaxSideSpeed(%data.maxSideSpeed * %pl.rex_stun);
-		%pl.setMaxCrouchForwardSpeed(%data.maxForwardCrouchSpeed * %pl.rex_stun);
-		%pl.setMaxCrouchBackwardSpeed(%data.maxBackwardCrouchSpeed * %pl.rex_stun);
-		%pl.setMaxCrouchSideSpeed(%data.maxSideCrouchSpeed * %pl.rex_stun);
+			%pl.setMaxForwardSpeed(%data.maxForwardSpeed * %pl.rex_stun);
+			%pl.setMaxBackwardSpeed(%data.maxBackwardSpeed * %pl.rex_stun);
+			%pl.setMaxSideSpeed(%data.maxSideSpeed * %pl.rex_stun);
+			%pl.setMaxCrouchForwardSpeed(%data.maxForwardCrouchSpeed * %pl.rex_stun);
+			%pl.setMaxCrouchBackwardSpeed(%data.maxBackwardCrouchSpeed * %pl.rex_stun);
+			%pl.setMaxCrouchSideSpeed(%data.maxSideCrouchSpeed * %pl.rex_stun);
+		}
 	}
 }
 
