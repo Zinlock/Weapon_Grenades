@@ -11,8 +11,8 @@ datablock ParticleData(grenade_riotExplosionHazeParticle)
 	spinSpeed		= 10.0;
 	spinRandomMin		= -50.0;
 	spinRandomMax		= 50.0;
-	colors[0]     = "0.5 0.0 0.0 0.03";
-	colors[1]     = "0.4 0.0 0.0 0.05";
+	colors[0]     = "0.5 0.0 0.0 0.05";
+	colors[1]     = "0.4 0.0 0.0 0.08";
 	colors[2]     = "0.3 0.0 0.05 0.1";
 	colors[3]     = "0.05 0.0 0.1 0.0";
 
