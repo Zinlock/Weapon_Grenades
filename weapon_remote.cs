@@ -197,7 +197,7 @@ function grenade_remoteImage::onAltFire(%this, %obj, %slot)
 	if(!%obj.weaponAmmoCheck() && %xp == %i)
 	{
 		%obj.weaponCharges[%obj.currTool] = "";
-		%obj.removeItem(%obj.currTool);
+		%obj.removeItemSlot(%obj.currTool);
 		%obj.unMountImage(0);
 		%obj.unMountImage(1);
 	}
