@@ -4,27 +4,42 @@
 // Usage:
 //   registerDataPref("Preference Title", "Category", "Weapon_YourModName", "type", defaultValue, hostOnly, restartRequired, datablockName, datablockFieldName, transmitDatablocks);
 
-function registerDataPref(%title, %category, %addon, %type, %default, %host, %restart, %data, %field, %td)
+function registerDataPref(%title, %category, %addon, %type, %default, %host, %restart, %dataName, %fieldName, %td)
 {
+	%data = getSafeVariableName(%dataName);
+	// %data = %dataName;
+	%field = getSafeVariableName(%fieldName);
+	// %field = %fieldName;
+
+	if(%data !$= %dataName)
+	{
+		error("registerDataPref() - Invalid datablock name '" @ %dataName @ "'");
+		return -1;
+	}
+
+	if(%field !$= %fieldName)
+	{
+		error("registerDataPref() - Invalid field name '" @ %dataName @ "'");
+		return -1;
+	}
+
 	if(isObject(%data))
 	{
 		if($Pref::DataPref[%data, %field] !$= "")
-		{
-			//%data.setField(%field, $Pref::DataPref[%data, %field]);
-			eval(%data @ "." @ %field @ " = " @ $Pref::DataPref[%data, %field] @ ";");
-		}
+			eval(%data @ "." @ %field @ " = $Pref::DataPref[" @ %data @ ", " @ %field @ "];");
 		else
 		{
-			$Pref::DataPref[%data, %field] = %default;
-			// %data.setField(%field, %default);
-			eval(%data @ "." @ %field @ " = " @ %default @ ";");
+			$Pref::DataPref[%data, %field] = expandEscape(%default);
+			eval(%data @ "." @ %field @ " = \"" @ expandEscape(%default) @ "\";");
 		}
 	}
 	else
 	{
-		error("registerDataPref() - Object '" @ %data @ "' does not exist");
+		error("registerDataPref() - Object '" @ %dataName @ "' does not exist");
 		return -1;
 	}
+
+	%global = "$Pref::DataPref" @ %data @ "_" @ %field;
 
 	if(strlen($BLPrefs::Version))
 	{
@@ -38,7 +53,7 @@ function registerDataPref(%title, %category, %addon, %type, %default, %host, %re
 			type           = getWord(%type, 0);
 			params				 = getWords(%type, 1);
 
-			variable       = "$Pref::DataPref" @ %data @ "_" @ %field;
+			variable       = %global;
 			defaultValue   = %default;
 
 			hostOnly       = %host;
@@ -55,7 +70,15 @@ function registerDataPref(%title, %category, %addon, %type, %default, %host, %re
 
 		return %pref;
 	}
-	// else warn("registerDataPref() - Missing or unsupported preferences mod");
+	else if($RTB::Hooks::ServerControl)
+	{
+		$doSafeTD[%data, %field] = true;
+		%callback = "DataPrefCallback__" @ %data @ "_" @ %field;
+		eval("function " @ %callback @ "(){" @ %data @ "." @ %field @ " = " @ %global @ "; if($doSafeTD[" @ %data @ ", " @ %field @ "]) safeTransmitDatablocks(1);}");
+
+		RTB_registerPref(%title, %category, %global, %type, %addon, %default, %restart, %host, %callback);
+		return 0;
+	}
 }
 
 function DataPref::onLoad(%pref, %val)
@@ -65,8 +88,7 @@ function DataPref::onLoad(%pref, %val)
 		if(%val $= "")
 			%val = $Pref::DataPref[%pref.data, %pref.dataField];
 		
-		//%pref.data.setField(%pref.dataField, %val);
-		eval(%pref.data @ "." @ %pref.dataField @ " = " @ %val @ ";"); // terrible. horrible, even. but this'll have to do for now
+		eval(%pref.data @ "." @ %pref.dataField @ " = \"" @ expandEscape(%val) @ "\";");
 	}
 }
 
@@ -74,8 +96,7 @@ function DataPref::onUpdate(%pref, %val)
 {
 	if(isObject(%pref.data))
 	{
-		//%pref.data.setField(%pref.dataField, %val);
-		eval(%pref.data @ "." @ %pref.dataField @ " = " @ %val @ ";");
+		eval(%pref.data @ "." @ %pref.dataField @ " = \"" @ expandEscape(%val) @ "\";");
 
 		if(%pref.safeTD)
 			safeTransmitDatablocks(1);
