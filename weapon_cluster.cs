@@ -35,8 +35,8 @@ datablock ExplosionData(grenade_clusterExplosion)
 	impulseRadius = 32;
 	impulseForce = 1500;
 
-	damageRadius = 18;
-	radiusDamage = 40;
+	damageRadius = 20;
+	radiusDamage = 50;
 
 	uiName = "";
 };
@@ -197,7 +197,7 @@ function grenade_clusterProjectile::onExplode(%this, %obj, %pos)
 	for(%i = 0; %i < getFieldCount(%projs); %i++)
 	{
 		%proj = getField(%projs, %i);
-		%proj.schedule(1250 + ((%i / 20) * 2000), FuseExplode);
+		%proj.schedule(250 + ((%i / grenade_clusterImage.clusterlets) * 1000), FuseExplode);
 	}
 
 	Parent::onExplode(%this, %obj, %pos);

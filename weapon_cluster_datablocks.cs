@@ -29,8 +29,8 @@ datablock ExplosionData(grenade_clusterletExplosion)
 	impulseRadius = 5;
 	impulseForce = 400;
 
-	damageRadius = 11;
-	radiusDamage = 38;
+	damageRadius = 14;
+	radiusDamage = 30;
 
 	uiName = "";
 };
@@ -46,7 +46,7 @@ datablock ProjectileData(grenade_clusterletProjectile)
 	explosion           = grenade_clusterletExplosion;
 	particleEmitter     = grenade_nailTrailEmitter;
 
-	muzzleVelocity      = 8;
+	muzzleVelocity      = 20;
 	velInheritFactor    = 0;
 	explodeOnPlayerImpact = false;
 	explodeOnDeath        = true;  
