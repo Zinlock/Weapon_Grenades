@@ -85,6 +85,22 @@ package PlayerDeafen
 		
 		Parent::Play2D(%cl, %pf);
 	}
+	
+	function GameConnection::PlayPitched3D(%cl, %pf, %pos, %p)
+	{
+		if(isObject(%pl = %cl.player) && %pl.isDeaf)
+			%pf = grenade_flashEmptySound;
+		
+		Parent::PlayPitched3D(%cl, %pf, %pos, %p);
+	}
+
+	function GameConnection::PlayPitched2D(%cl, %pf, %p)
+	{
+		if(isObject(%pl = %cl.player) && %pl.isDeaf)
+			%pf = grenade_flashEmptySound;
+		
+		Parent::PlayPitched2D(%cl, %pf, %p);
+	}
 };
 activatePackage(PlayerDeafen);
 

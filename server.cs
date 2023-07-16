@@ -197,47 +197,7 @@ package WeaponAltFire
 };
 activatePackage(WeaponAltFire);
 
-package AudioRandomPitch
-{
-	function GameConnection::Play3D(%cl, %sound, %pos)
-	{
-		%pitchDev = %sound.pitchRange;
-		if(%pitchDev $= "") return Parent::Play3D(%cl, %sound, %pos);
-		
-		%maxPitch = 100 + %pitchDev;
-		%minPitch = 100 - %pitchDev;
-		
-		%pitch = (getRandom(%minPitch, %maxPitch)) / 100;
-
-		%oldTimescale = getTimescale();
-		setTimescale(%pitch);
-		
-		Parent::Play3D(%cl, %sound, %pos);
-		
-		setTimescale(%oldTimescale);
-	}
-
-	function GameConnection::Play2D(%cl, %sound)
-	{
-		%pitchDev = %sound.pitchRange;
-		if(%pitchDev $= "") return Parent::Play2D(%cl, %sound);
-		
-		%maxPitch = 100 + %pitchDev;
-		%minPitch = 100 - %pitchDev;
-		
-		%pitch = (getRandom(%minPitch, %maxPitch)) / 100;
-
-		%oldTimescale = getTimescale();
-		setTimescale(%pitch);
-		
-		Parent::Play2D(%cl, %sound);
-		
-		setTimescale(%oldTimescale);
-	}
-};
-
-if($Server::Dedicated)
-	activatePackage(AudioRandomPitch);
+exec("./Support_AudioPitch.cs");
 
 function GameConnection::Play2DSpeed(%cl, %sound, %speed)
 {
