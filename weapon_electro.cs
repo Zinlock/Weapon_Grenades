@@ -202,9 +202,16 @@ function grenade_electroProjectile::onExplode(%this, %obj, %pos)
 
 			if(!isObject(firstWord(containerRayCast(%pos,%col.getHackPosition(),$TypeMasks::FxBrickObjectType | $TypeMasks::VehicleObjectType, %col))))
 			{
-				%col.zapTicks = mFloor(grenade_electroImage.zapTime * 1000 / 250);
-				%col.zapDamage = grenade_electroImage.zapDamage;
-				%col.zap();
+				if(%col.getDataBlock().isTurretArmor)
+				{
+					%col.turretJam(10000);
+				}
+				else
+				{
+					%col.zapTicks = mFloor(grenade_electroImage.zapTime * 1000 / 250);
+					%col.zapDamage = grenade_electroImage.zapDamage;
+					%col.zap();
+				}
 			}
 		}
 	}
