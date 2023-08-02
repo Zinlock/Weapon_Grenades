@@ -43,7 +43,7 @@ function Normal2Rotation(%normal)
 
 function Player::grenade_UpdateSpeed(%pl)
 {
-	if($Version == 21)
+	if($Version !$= 20)
 	{
 		if(isFunction("Player", "aeUpdateSpeed")) // aebase compatibilty
 			%pl.aeUpdateSpeed();
