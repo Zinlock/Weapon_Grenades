@@ -21,6 +21,8 @@ exec("./support_prjloop.cs");
 exec("./support_items.cs");
 exec("./effect_stunzap.cs");
 
+$trapStaticTypemask = $TypeMasks::InteriorObjectType | $TypeMasks::TerrainObjectType | $TypeMasks::StaticShapeObjectType; // workaround for rebuilt
+
 function SimObject::IsA(%obj, %type) { return %obj.getClassName() $= %type; }
 
 function Normal2Rotation(%normal)  

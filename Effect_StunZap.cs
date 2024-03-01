@@ -306,6 +306,9 @@ function Player::zap(%obj)
 	if(%obj.zapDamage $= "" || %obj.zapDamage <= 0)
 		%obj.zapDamage = 0.1;
 
+	if(%obj.zapEnergyDamage $= "" || %obj.zapEnergyDamage <= 0)
+		%obj.zapEnergyDamage = 10;
+
 	%obj.zap = %obj.schedule(0, zapLoop);
 }
 
@@ -344,6 +347,7 @@ function Player::zapLoop(%obj)
 	%obj.setNodeColor("ALL", (getRandom() >= 0.5 ? "1 1 1 1" : "0 0 0 1"));
 	%obj.playThread(2, (getRandom() >= 0.5 ? plant : jump));
 	%obj.damage(%obj, %obj.getHackPosition(), %obj.zapDamage, $DamageType::gun);
+	%obj.setEnergyLevel(%obj.getEnergyLevel() - %obj.zapEnergyDamage);
 	%obj.spawnExplosion(electrocuteZapProjectile, "1 1 1");
 
 	%obj.zap = %obj.schedule(250, zapLoop);

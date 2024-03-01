@@ -119,6 +119,7 @@ datablock ShapeBaseImageData(grenade_electroImage)
 
 	zapTime = 5;
 	zapDamage = 0.9;
+	zapEnergyDamage = 20;
 	zapRadius = 10;
 
 	projectileType = Projectile;
@@ -200,7 +201,7 @@ function grenade_electroProjectile::onExplode(%this, %obj, %pos)
 		{
 			%dist = vectorDist(%pos, %col.getHackPosition());
 
-			if(!isObject(firstWord(containerRayCast(%pos,%col.getHackPosition(),$TypeMasks::FxBrickObjectType | $TypeMasks::VehicleObjectType, %col))))
+			if(!isObject(firstWord(containerRayCast(%pos,%col.getHackPosition(),$TypeMasks::FxBrickObjectType | $trapStaticTypemask | $TypeMasks::VehicleObjectType, %col))))
 			{
 				if(%col.getDataBlock().isTurretArmor)
 				{
@@ -210,6 +211,7 @@ function grenade_electroProjectile::onExplode(%this, %obj, %pos)
 				{
 					%col.zapTicks = mFloor(grenade_electroImage.zapTime * 1000 / 250);
 					%col.zapDamage = grenade_electroImage.zapDamage;
+					%col.zapEnergyDamage = grenade_electroImage.zapEnergyDamage;
 					%col.zap();
 				}
 			}

@@ -303,7 +303,7 @@ function grenade_flashbangProjectile::onExplode(%this, %obj, %pos)
 			%lookDot = vectorDot(%fromVector, %col.getEyeVector());
 			%dist = vectorDist(%pos, %col.getEyePoint());
 
-			if(!isObject(firstWord(containerRayCast(%pos,%col.getEyePoint(),$TypeMasks::FxBrickObjectType | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType, %col))))
+			if(!isObject(firstWord(containerRayCast(%pos,%col.getEyePoint(),$TypeMasks::FxBrickObjectType | $trapStaticTypemask | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType, %col))))
 			{
 				%time = grenade_flashbangImage.flashTime;
 				%proxy = 32;
