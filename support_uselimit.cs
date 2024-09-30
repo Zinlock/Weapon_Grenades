@@ -106,12 +106,10 @@ function registerChargeEvents()
 	registerOutputEvent(fxDtsBrick, setGrenadeItem, %list TAB "int 1 1000 1", 1);
 	registerOutputEvent(fxDtsBrick, spawnGrenadeItem, "vector" TAB %list TAB "int 1 1000 1", 1);
 	registerOutputEvent(Player, addGrenade, %list TAB "int 1 1000 1", 1);
+	registerOutputEvent(Player, setGrenade, "int 1 20 1" TAB %list TAB "int 1 1000 1", 1);
 }
 
 schedule(0, 0, registerChargeEvents);
-
-if(!isPackage(EventDescriptionsServer) && isFile($f = "Add-Ons/Script_EventDescriptions/server.cs"))
-	exec($f);
 
 $OutputDescription_["fxDtsBrick", "setGrenadeItem"] = "[grenade] [count]" NL
 																											"Spawns a static grenade item attached to this brick." NL
@@ -125,6 +123,12 @@ $OutputDescription_["fxDtsBrick", "spawnGrenadeItem"] = "[grenade] [count]" NL
 
 $OutputDescription_["Player", "addGrenade"] = "[grenade] [count]" NL
 																							"Gives this player a grenade." NL
+																							"grenade: Grenade type" NL
+																							"count: Reserve ammo to give";
+
+$OutputDescription_["Player", "setGrenade"] = "[slot] [grenade] [count]" NL
+																							"Gives this player a grenade in a specific slot." NL
+																							"slot: Inventory slot to give it in" NL
 																							"grenade: Grenade type" NL
 																							"count: Reserve ammo to give";
 
@@ -178,6 +182,20 @@ function Player::addGrenade(%pl, %item, %val)
 		
 		%pl.setItem(%idb, %idx);
 		%pl.weaponCharges[%idx] = %val;
+	}
+}
+
+function Player::setGrenade(%pl, %slot, %item, %val)
+{
+	%idb = $ChargeItem[%item];
+
+	if(isObject(%idb))
+	{
+		if(!$Pref::XNades::eventsBypassAmmo && %val > %idb.image.weaponReserveMax)
+			%val = %idb.image.weaponReserveMax;
+
+		%pl.setItem(%idb, %slot - 1);
+		%pl.weaponCharges[%slot - 1] = %val;
 	}
 }
 
