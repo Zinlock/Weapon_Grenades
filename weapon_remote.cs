@@ -187,6 +187,7 @@ function grenade_remoteImage::onAltFire(%this, %obj, %slot)
 			};
 
 			%explo.schedule(70 * %i, explode);
+			schedule(70 * %i, %charge, serverPlay3D, grenade_distantExplosion @ getRandom(1, 3) @ Sound, %charge.getPosition());
 
 			%xp++;
 

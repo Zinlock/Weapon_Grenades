@@ -12,7 +12,12 @@ function Player::makeDeaf(%pl, %time)
 	}
 
 	%time *= 1000;
+
+	if(%time < %pl.deafLength - (getSimTime() - %pl.deafenTime))
+		return;
+
 	%pl.deafenTime = getSimTime();
+	%pl.deafLength = %time;
 	%pl.isDeaf = true;
 	%pl.deafLoop(%time);
 }
@@ -45,7 +50,12 @@ function Player::makeBlind(%pl, %time)
 	}
 
 	%time *= 1000;
+
+	if(%time < %pl.blindLength - (getSimTime() - %pl.blindTime))
+		return;
+
 	%pl.blindTime = getSimTime();
+	%pl.blindLength = %time;
 	%pl.isBlind = true;
 	%pl.blindLoop(%time);
 }
@@ -294,7 +304,7 @@ function grenade_flashbangProjectile::onCollision(%this,%obj,%col,%fade,%pos,%no
 
 function grenade_flashbangProjectile::onExplode(%this, %obj, %pos)
 {
-	initContainerRadiusSearch(%pos, 128, $TypeMasks::PlayerObjectType);
+	initContainerRadiusSearch(%pos, 160, $TypeMasks::PlayerObjectType);
 	while(isObject(%col = ContainerSearchNext()))
 	{
 		if(minigameCanDamage(%obj, %col) == 1)
@@ -306,10 +316,10 @@ function grenade_flashbangProjectile::onExplode(%this, %obj, %pos)
 			if(!isObject(firstWord(containerRayCast(%pos,%col.getEyePoint(),$TypeMasks::FxBrickObjectType | $trapStaticTypemask | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType, %col))))
 			{
 				%time = grenade_flashbangImage.flashTime;
-				%proxy = 32;
+				%proxy = 80;
 				%deaf = 0.8;
 				%dist = vectorDist(%pos, %col.getEyePoint());
-				%stunLen = ((%time / 2) * (%lookDot + 1)) / mClampF(%dist - %proxy, 1, 128);
+				%stunLen = ((%time / 2) * (%lookDot + 1)) / mClampF(%dist - %proxy, 1, 160);
 				if(%lookDot > 0)
 				{
 					// %col.client.play2D(grenade_flashRingSound);

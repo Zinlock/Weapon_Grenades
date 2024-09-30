@@ -200,6 +200,8 @@ function grenade_clusterProjectile::onExplode(%this, %obj, %pos)
 		%proj.schedule(250 + ((%i / grenade_clusterImage.clusterlets) * 1000), FuseExplode);
 	}
 
+	serverPlay3D(grenade_distantExplosion @ getRandom(1, 3) @ Sound, %pos);
+
 	Parent::onExplode(%this, %obj, %pos);
 }
 

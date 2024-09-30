@@ -197,7 +197,7 @@ function grenade_ninebangProjectile::onExplode(%this, %obj, %pos)
 		}
 	}
 	
-	initContainerRadiusSearch(%pos, 128, $TypeMasks::PlayerObjectType);
+	initContainerRadiusSearch(%pos, 160, $TypeMasks::PlayerObjectType);
 	while(isObject(%col = ContainerSearchNext()))
 	{
 		if(minigameCanDamage(%obj, %col) == 1)
@@ -209,10 +209,10 @@ function grenade_ninebangProjectile::onExplode(%this, %obj, %pos)
 			if(!isObject(firstWord(containerRayCast(%pos,%col.getEyePoint(),$TypeMasks::FxBrickObjectType | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType, %col))))
 			{
 				%time = grenade_ninebangImage.flashTime;
-				%proxy = 32;
+				%proxy = 80;
 				%deaf = 0.8;
 				%dist = vectorDist(%pos, %col.getEyePoint());
-				%stunLen = ((%time / 2) * (%lookDot + 1)) / mClampF(%dist - %proxy, 1, 128);
+				%stunLen = ((%time / 2) * (%lookDot + 1)) / mClampF(%dist - %proxy, 1, 160);
 				if(%lookDot > 0)
 				{
 					// %col.client.play2D(grenade_flashRingSound);

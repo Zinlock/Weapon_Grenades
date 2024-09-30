@@ -226,3 +226,37 @@ datablock AudioProfile(grenade_concExplosionSound)
 
 	pitchRange = 12;
 };
+
+datablock AudioDescription(grenade_audioDistant3D : AudioDefault3D)
+{
+	volume = 0.35;
+	referenceDistance = 500;
+	maxDistance = 1000;
+};
+
+datablock AudioProfile(grenade_distantExplosion1Sound)
+{
+	filename    = "./wav/blast_dist0.wav";
+	description = grenade_audioDistant3D;
+	preload = true;
+
+	pitchRange = 6;
+};
+
+datablock AudioProfile(grenade_distantExplosion2Sound)
+{
+	filename    = "./wav/blast_dist1.wav";
+	description = grenade_audioDistant3D;
+	preload = true;
+
+	pitchRange = 6;
+};
+
+datablock AudioProfile(grenade_distantExplosion3Sound)
+{
+	filename    = "./wav/blast_dist2.wav";
+	description = grenade_audioDistant3D;
+	preload = true;
+
+	pitchRange = 6;
+};

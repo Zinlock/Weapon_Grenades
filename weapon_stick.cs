@@ -225,5 +225,8 @@ function grenade_stickProjectile::onExplode(%this, %obj, %pos)
 			}
 		}
 	}
+
+	serverPlay3D(grenade_distantExplosion @ getRandom(1, 3) @ Sound, %pos);
+
 	Parent::onExplode(%this, %obj, %pos);
 }
